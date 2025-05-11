@@ -22,8 +22,8 @@ public class Equipment
     {
         return $"Оборудование: {Name}\nТип: {Type}\nСерийный номер: {SerialNumber}\n"
         +
-        $"Дата покупки: {PurchaseDate.ToString("dd.MM.yyyy")}\nДата последнего обслуживания: { LastMaintenanceDate.ToString("dd.MM.yyyy")}\nСостояние: { Status}";
-}
+        $"Дата покупки: {PurchaseDate.ToString("dd.MM.yyyy")}\nДата последнего обслуживания: {LastMaintenanceDate.ToString("dd.MM.yyyy")}\nСостояние: {Status}";
+    }
     public void PerformMaintenance()
     {
         LastMaintenanceDate = DateTime.Now;
