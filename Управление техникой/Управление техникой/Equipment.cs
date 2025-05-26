@@ -20,9 +20,9 @@ public class Equipment
     }
     public override string ToString()
     {
-        return $"Оборудование: {Name}\nТип: {Type}\nСерийный номер: {SerialNumber}\n"
+        return $"Оборудование: {Name}; Тип: {Type}; Серийный номер: {SerialNumber};"
         +
-        $"Дата покупки: {PurchaseDate.ToString("dd.MM.yyyy")}\nДата последнего обслуживания: {LastMaintenanceDate.ToString("dd.MM.yyyy")}\nСостояние: {Status}";
+        $"Дата покупки: {PurchaseDate.ToString("dd.MM.yyyy")}; Дата последнего обслуживания: {LastMaintenanceDate.ToString("dd.MM.yyyy")}; Состояние: {Status}";
     }
     public void PerformMaintenance()
     {

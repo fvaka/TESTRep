@@ -93,8 +93,7 @@ namespace Управление_техникой
                     MessageBox.Show("Список оборудования пуст.");
                     return;
                 }
-                var displayInfoForm = new DisplayInfoForm();
-                displayInfoForm.Equipment = equipments;
+                var displayInfoForm = new DisplayInfoForm(equipments);
                 displayInfoForm.ShowDialog();
             }
             catch (Exception ex)
