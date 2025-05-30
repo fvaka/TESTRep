@@ -81,7 +81,7 @@ namespace Управление_техникой
             {
                 Location = new System.Drawing.Point(purchaseDatePicker.Right + 10, 320),
                 Text = "Дата последнего обслуждживания:",
-
+                AutoSize = true
             };
             var addButton = new Button
             {
@@ -121,6 +121,13 @@ namespace Управление_техникой
             !string.IsNullOrEmpty(typeTextBox.Text) &&
             !string.IsNullOrEmpty(serialNumberTextBox.Text))
             {
+                // Проверка дат
+                if (purchaseDatePicker.Value > lastMaintenanceDatePicker.Value)
+                {
+                    MessageBox.Show("Дата покупки не может быть позже даты последнего обслуживания.");
+                    return;
+                }
+
                 var equipment = new Equipment(
                 nameTextBox.Text,
                 typeTextBox.Text,
@@ -129,6 +136,7 @@ namespace Управление_техникой
                 lastMaintenanceDatePicker.Value,
                 EquipmentStatus.InGoodCondition
                 );
+                MessageBox.Show("Оборудование успешно добавлено.");
                 equipmentManager.AddEquipment(equipment);
                 Clear();
             }
@@ -141,6 +149,7 @@ namespace Управление_техникой
         {
             if (!string.IsNullOrEmpty(serialNumberTextBox.Text))
             {
+                MessageBox.Show("Оборудование успешно удалено.");
                 equipmentManager.RemoveEquipment(serialNumberTextBox.Text);
                 Clear();
             }
@@ -152,6 +161,7 @@ namespace Управление_техникой
         private void DisplayButton_Click(object sender, EventArgs e)
         {
             equipmentManager.DisplayEquipmentInfo();
+            Clear();
         }
 
         private void Clear()

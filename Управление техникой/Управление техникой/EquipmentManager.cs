@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Управление_техникой
@@ -22,15 +23,24 @@ namespace Управление_техникой
         {
             try
             {
-                if (equipment != null)
-                {
-                    equipments.Add(equipment);
-                    LoadEquipment();
-                }
-                else
+                if (equipment == null)
                 {
                     MessageBox.Show("Объект оборудования не создан.");
+                    return;
                 }
+                // Проверка на дубликаты серийного номера
+                if (equipments.Any(e => e.SerialNumber == equipment.SerialNumber))
+                {
+                    MessageBox.Show("Оборудование с таким серийным номером уже существует.");
+                    return;
+                }
+                if (equipment.PurchaseDate > equipment.LastMaintenanceDate)
+                {
+                    MessageBox.Show("Дата покупки не может быть позже даты последнего обслуживания.");
+                    return;
+                }
+                equipments.Add(equipment);
+                LoadEquipment();
             }
             catch (Exception ex)
             {
@@ -84,6 +94,21 @@ namespace Управление_техникой
                 MessageBox.Show($"Ошибка при загрузке оборудования: {ex.Message}");
             }
         }
+
+        public Equipment GetEquipmentBySerialNumber(string serialNumber)
+        {
+            return equipments.FirstOrDefault(e => e.SerialNumber == serialNumber);
+        }
+
+        public List<Equipment> GetEquipmentList()
+        {
+            return equipments;
+        }
+
+        public void RefreshEquipmentList()
+        {
+            LoadEquipment();
+        }
         public void DisplayEquipmentInfo()
         {
             try
@@ -93,7 +118,7 @@ namespace Управление_техникой
                     MessageBox.Show("Список оборудования пуст.");
                     return;
                 }
-                var displayInfoForm = new DisplayInfoForm(equipments);
+                var displayInfoForm = new DisplayInfoForm(this);
                 displayInfoForm.ShowDialog();
             }
             catch (Exception ex)
