@@ -40,6 +40,7 @@ namespace Управление_техникой
                     return;
                 }
                 equipments.Add(equipment);
+                MessageBox.Show("Оборудование успешно добавлено.");
                 LoadEquipment();
             }
             catch (Exception ex)
@@ -56,6 +57,7 @@ namespace Управление_техникой
                 if (equipmentToRemove != null)
                 {
                     equipments.Remove(equipmentToRemove);
+                    MessageBox.Show("Оборудование успешно удалено.");
                     LoadEquipment();
                 }
                 else
@@ -95,6 +97,37 @@ namespace Управление_техникой
             }
         }
 
+        public List<Equipment> GetEquipmentDueForMaintenance()
+        {
+            return equipments.Where(e => e.InMaintenanceDue()).ToList();
+        }
+
+        public List<Equipment> GetEquipmentOverdueMaintenance()
+        {
+            return equipments.Where(e => e.InMaintenanceOverdue()).ToList();
+        }
+        public void CheckMaintenanceNotifications()
+        {
+            var dueEquipment = GetEquipmentDueForMaintenance();
+            var overdueEquioment = GetEquipmentOverdueMaintenance();
+            if (overdueEquioment.Any())
+            {
+                string message = "Следующее оборудование имеет просроченное обслуживание:\n";
+                message += string.Join("\n", overdueEquioment.Select(e => $"- {e.Name} (Серийный номер: {e.SerialNumber})"));
+                MessageBox.Show(message, "Просроченное обслуживание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (dueEquipment.Any())
+            {
+                string message = "Следующее оборудование требует обслуживания:\n";
+                message += string.Join("\n", dueEquipment.Select(e => $"- {e.Name} (Серийный номер: {e.SerialNumber})"));
+                MessageBox.Show(message, "Требуется обслуживание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        public void SetMaintenanceInterValForAll(int months)
+        {
+            foreach (var e in equipments) { e.MaintenanceIntervalMonths = months; }
+        }
         public Equipment GetEquipmentBySerialNumber(string serialNumber)
         {
             return equipments.FirstOrDefault(e => e.SerialNumber == serialNumber);

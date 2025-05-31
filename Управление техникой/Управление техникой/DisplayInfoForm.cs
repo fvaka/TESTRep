@@ -102,6 +102,7 @@ namespace Управление_техникой
             {
                 foreach (var equip in equipmentList)
                 {
+                    string status = equip.GetMaintenanceStatus();
                     infoTextBox.AppendText(equip.ToString() + Environment.NewLine + Environment.NewLine);
                 }
             }

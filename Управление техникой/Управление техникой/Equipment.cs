@@ -8,6 +8,7 @@ public class Equipment
     public DateTime PurchaseDate { get; set; }
     public DateTime LastMaintenanceDate { get; set; }
     public EquipmentStatus Status { get; set; }
+    public int MaintenanceIntervalMonths { get; set; } = 6;
     public Equipment(string name, string type, string serialNumber, DateTime purchaseDate,
     DateTime lastMaintenanceDate, EquipmentStatus status)
     {
@@ -17,6 +18,16 @@ public class Equipment
         PurchaseDate = purchaseDate;
         LastMaintenanceDate = lastMaintenanceDate;
         Status = status;
+    }
+
+    public bool InMaintenanceOverdue()
+    {
+        return DateTime.Now > LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths + 1); 
+    }
+    
+    public bool InMaintenanceDue()
+    {
+        return DateTime.Now > LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths); 
     }
     public override string ToString()
     {
@@ -39,6 +50,13 @@ public class Equipment
     {
         Status = EquipmentStatus.InRepair;
         MessageBox.Show($"Оборудование '{Name}' отправлено в ремонт.");
+    }
+
+    public string GetMaintenanceStatus()
+    {
+        if (InMaintenanceOverdue()) return "Обслуживание просрочено.";
+        else if (InMaintenanceDue()) return "Необходимо выполнить обслуживание";
+        return "Оборудование не требует обслуживания";
     }
 }
 public enum EquipmentStatus

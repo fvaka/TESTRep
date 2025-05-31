@@ -16,6 +16,9 @@ namespace Управление_техникой
         private Label serialNumberLabel;
         private Label purchaseLabel;
         private Label lastMaintenanceLabel;
+        private Label list;
+        private Label notifications;
+        private ComboBox notificationsCmb;
         public MainForm()
         {
             this.Text = "Управление оборудованием";
@@ -25,64 +28,86 @@ namespace Управление_техникой
             InitializeComponents();
             var listView = new ListView
             {
-                Location = new System.Drawing.Point(10, 10),
+                Location = new System.Drawing.Point(10, 20),
                 Size = new System.Drawing.Size(780, 300)
             };
             equipmentManager = new EquipmentManager(listView);
             this.Controls.Add(listView);
+            var list = new Label
+            {
+                Text = "Список оборудования:",
+                Location = new System.Drawing.Point(10, 5),
+                AutoSize = true,
+            };
+            this.Controls.Add(list);
         }
         private void InitializeComponents()
         {
             nameLabel = new Label
             {
-                Location = new System.Drawing.Point(10, 320),
+                Location = new System.Drawing.Point(10, 330),
                 Text = "Название:",
             };
             typeLabel = new Label
             {
-                Location = new System.Drawing.Point(120, 320),
+                Location = new System.Drawing.Point(120, 330),
                 Text = "Тип:",
             };
             serialNumberLabel = new Label
             {
-                Location = new System.Drawing.Point(230, 320),
+                Location = new System.Drawing.Point(230, 330),
                 Text = "Серийный номер:",
             };
             purchaseLabel = new Label
             {
-                Location = new System.Drawing.Point(340, 320),
+                Location = new System.Drawing.Point(340, 330),
                 Text = "Дата покупки:",
 
             };
             nameTextBox = new TextBox
             {
-                Location = new System.Drawing.Point(10, 340),
+                Location = new System.Drawing.Point(10, 350),
                 Width = 100
             };
             typeTextBox = new TextBox
             {
-                Location = new System.Drawing.Point(120, 340),
+                Location = new System.Drawing.Point(120, 350),
                 Width = 100
             };
             serialNumberTextBox = new TextBox
             {
-                Location = new System.Drawing.Point(230, 340),
+                Location = new System.Drawing.Point(230, 350),
                 Width = 100
             };
             purchaseDatePicker = new DateTimePicker
             {
-                Location = new System.Drawing.Point(340, 340)
+                Location = new System.Drawing.Point(340, 350)
             };
             lastMaintenanceDatePicker = new DateTimePicker
             {
-                Location = new System.Drawing.Point(purchaseDatePicker.Right + 10, 340)
+                Location = new System.Drawing.Point(purchaseDatePicker.Right + 10, 350)
             };
             lastMaintenanceLabel = new Label
             {
-                Location = new System.Drawing.Point(purchaseDatePicker.Right + 10, 320),
+                Location = new System.Drawing.Point(purchaseDatePicker.Right + 10, 330),
                 Text = "Дата последнего обслуждживания:",
                 AutoSize = true
             };
+            notifications = new Label
+            {
+                Text = "Уведомлять о необходимости обслуживания каждые: ",
+                Location = new System.Drawing.Point(10, nameTextBox.Bottom + 10),
+                AutoSize = true
+            };
+            notificationsCmb = new ComboBox
+            {
+                Location = new System.Drawing.Point(15, notifications.Bottom + 5),
+                Width = 150, 
+                DropDownStyle = ComboBoxStyle.DropDownList,
+            };
+            notificationsCmb.Items.AddRange(new object[] { "3 месяца", "6 месяца", "12 месяца" });
+            notificationsCmb.SelectedIndex = 1;
+            notificationsCmb.SelectedIndexChanged += notificationsCmb_SelectedItem;
             var addButton = new Button
             {
                 Text = "Добавить",
@@ -111,10 +136,18 @@ namespace Управление_техникой
             this.Controls.Add(serialNumberLabel);
             this.Controls.Add(purchaseLabel);
             this.Controls.Add(lastMaintenanceLabel);
+            this.Controls.Add(notifications);
+            this.Controls.Add(notificationsCmb);
             this.Controls.Add(addButton);
             this.Controls.Add(removeButton);
             this.Controls.Add(displayButton);
         }
+
+        private void NotificationsCmb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void AddButton_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(nameTextBox.Text) &&
@@ -136,7 +169,6 @@ namespace Управление_техникой
                 lastMaintenanceDatePicker.Value,
                 EquipmentStatus.InGoodCondition
                 );
-                MessageBox.Show("Оборудование успешно добавлено.");
                 equipmentManager.AddEquipment(equipment);
                 Clear();
             }
@@ -149,7 +181,6 @@ namespace Управление_техникой
         {
             if (!string.IsNullOrEmpty(serialNumberTextBox.Text))
             {
-                MessageBox.Show("Оборудование успешно удалено.");
                 equipmentManager.RemoveEquipment(serialNumberTextBox.Text);
                 Clear();
             }
@@ -164,6 +195,18 @@ namespace Управление_техникой
             Clear();
         }
 
+        private void notificationsCmb_SelectedItem(object sender, EventArgs e)
+        {
+            int month = 6;
+            switch (notificationsCmb.SelectedIndex)
+            {
+                case 0: month = 3; break;
+                case 1: month = 6; break;
+                case 2: month = 9; break;
+            }
+
+            equipmentManager.SetMaintenanceInterValForAll(month);
+        }
         private void Clear()
         {
             nameTextBox.Text = "";
