@@ -191,6 +191,7 @@ namespace Управление_техникой
         }
         private void DisplayButton_Click(object sender, EventArgs e)
         {
+            equipmentManager.CheckMaintenanceNotifications();
             equipmentManager.DisplayEquipmentInfo();
             Clear();
         }

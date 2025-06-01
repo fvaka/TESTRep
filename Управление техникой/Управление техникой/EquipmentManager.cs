@@ -109,18 +109,38 @@ namespace Управление_техникой
         public void CheckMaintenanceNotifications()
         {
             var dueEquipment = GetEquipmentDueForMaintenance();
-            var overdueEquioment = GetEquipmentOverdueMaintenance();
-            if (overdueEquioment.Any())
+            var overdueEquipment = GetEquipmentOverdueMaintenance();
+
+            // Формируем подробное сообщение
+            var message = new System.Text.StringBuilder();
+
+            if (overdueEquipment.Any())
             {
-                string message = "Следующее оборудование имеет просроченное обслуживание:\n";
-                message += string.Join("\n", overdueEquioment.Select(e => $"- {e.Name} (Серийный номер: {e.SerialNumber})"));
-                MessageBox.Show(message, "Просроченное обслуживание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                message.AppendLine("=== ВНИМАНИЕ: Оборудование с просроченным обслуживанием ===");
+                foreach (var equip in overdueEquipment)
+                {
+                    var overdueDays = (DateTime.Now - equip.LastMaintenanceDate.AddMonths(equip.MaintenanceIntervalMonths)).Days;
+                    message.AppendLine($"- {equip.Name} (№{equip.SerialNumber}): просрочено на {overdueDays} дней");
+                }
+                message.AppendLine();
             }
-            else if (dueEquipment.Any())
+
+            if (dueEquipment.Any())
             {
-                string message = "Следующее оборудование требует обслуживания:\n";
-                message += string.Join("\n", dueEquipment.Select(e => $"- {e.Name} (Серийный номер: {e.SerialNumber})"));
-                MessageBox.Show(message, "Требуется обслуживание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                message.AppendLine("=== Оборудование, требующее скорого обслуживания ===");
+                foreach (var equip in dueEquipment)
+                {
+                    var daysRemaining = (equip.LastMaintenanceDate.AddMonths(equip.MaintenanceIntervalMonths) - DateTime.Now).Days;
+                    message.AppendLine($"- {equip.Name} (№{equip.SerialNumber}): требуется через {daysRemaining} дней");
+                }
+                message.AppendLine();
+            }
+
+            if (message.Length > 0)
+            {
+                MessageBox.Show(message.ToString(), "Уведомления о техническом обслуживании",
+                               MessageBoxButtons.OK,
+                               overdueEquipment.Any() ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
             }
         }
 
