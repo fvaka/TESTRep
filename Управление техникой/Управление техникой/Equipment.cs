@@ -23,12 +23,12 @@ public class Equipment
    
     public bool InMaintenanceOverdue()
     {
-        return DateTime.Now > LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths + 1); 
+        return DateTime.Now >= LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths); 
     }
     
     public bool InMaintenanceDue()
     {
-        return DateTime.Now >= LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths); 
+        return DateTime.Now == LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths); 
     }
     public override string ToString()
     {

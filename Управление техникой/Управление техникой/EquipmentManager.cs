@@ -76,7 +76,7 @@ namespace Управление_техникой
             if (equipment.InMaintenanceOverdue())
             {
                 MessageBox.Show(
-                    $"Внимание! Добавляемое оборудование '{equipment.Name}' (№{equipment.SerialNumber}) имеет просроченное ТО!\n" +
+                    $"Внимание! Добавляемое оборудование '{equipment.Name}' (№{equipment.SerialNumber}) имеет просроченное ТО и нуждается в обсуживании\n" +
                     $"Последнее обслуживание: {equipment.LastMaintenanceDate:dd.MM.yyyy}",
                     "Предупреждение о состоянии оборудования",
                     MessageBoxButtons.OK,
@@ -142,8 +142,8 @@ namespace Управление_техникой
                 message.AppendLine("=== ВНИМАНИЕ: Оборудование с просроченным обслуживанием ===");
                 foreach (var equip in overdueEquipment)
                 {
-                    var overdueDays = (DateTime.Now - equip.LastMaintenanceDate.AddMonths(equip.MaintenanceIntervalMonths)).Days;
-                    message.AppendLine($"- {equip.Name} (№{equip.SerialNumber}): просрочено на {overdueDays} дней");
+                    //var overdueDays = (DateTime.Now - equip.LastMaintenanceDate.AddMonths(equip.MaintenanceIntervalMonths)).Days;
+                    message.AppendLine($"- {equip.Name} (№{equip.SerialNumber})");
                 }
                 message.AppendLine();
             }
@@ -153,8 +153,8 @@ namespace Управление_техникой
                 message.AppendLine("=== Оборудование, требующее скорого обслуживания ===");
                 foreach (var equip in dueEquipment)
                 {
-                    var daysRemaining = (equip.LastMaintenanceDate.AddMonths(equip.MaintenanceIntervalMonths) - DateTime.Now).Days;
-                    message.AppendLine($"- {equip.Name} (№{equip.SerialNumber}): требуется через {daysRemaining} дней");
+                    //var daysRemaining = (equip.LastMaintenanceDate.AddMonths(equip.MaintenanceIntervalMonths) - DateTime.Now).Days;
+                    message.AppendLine($"- {equip.Name} (№{equip.SerialNumber})");
                 }
                 message.AppendLine();
             }

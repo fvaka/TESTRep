@@ -143,19 +143,13 @@ namespace Управление_техникой
             this.Controls.Add(displayButton);
         }
 
-        private void NotificationsCmb_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void AddButton_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(nameTextBox.Text) &&
         !string.IsNullOrEmpty(typeTextBox.Text) &&
         !string.IsNullOrEmpty(serialNumberTextBox.Text))
             {
-                // Получаем выбранный интервал
-                int interval = 6; // значение по умолчанию
+                int interval = 6;
                 switch (notificationsCmb.SelectedIndex)
                 {
                     case 0: interval = 3; break;
