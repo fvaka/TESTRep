@@ -151,24 +151,29 @@ namespace Управление_техникой
         private void AddButton_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(nameTextBox.Text) &&
-            !string.IsNullOrEmpty(typeTextBox.Text) &&
-            !string.IsNullOrEmpty(serialNumberTextBox.Text))
+        !string.IsNullOrEmpty(typeTextBox.Text) &&
+        !string.IsNullOrEmpty(serialNumberTextBox.Text))
             {
-                // Проверка дат
-                if (purchaseDatePicker.Value > lastMaintenanceDatePicker.Value)
+                // Получаем выбранный интервал
+                int interval = 6; // значение по умолчанию
+                switch (notificationsCmb.SelectedIndex)
                 {
-                    MessageBox.Show("Дата покупки не может быть позже даты последнего обслуживания.");
-                    return;
+                    case 0: interval = 3; break;
+                    case 1: interval = 6; break;
+                    case 2: interval = 12; break;
                 }
 
                 var equipment = new Equipment(
-                nameTextBox.Text,
-                typeTextBox.Text,
-                serialNumberTextBox.Text,
-                purchaseDatePicker.Value,
-                lastMaintenanceDatePicker.Value,
-                EquipmentStatus.InGoodCondition
-                );
+                    nameTextBox.Text,
+                    typeTextBox.Text,
+                    serialNumberTextBox.Text,
+                    purchaseDatePicker.Value,
+                    lastMaintenanceDatePicker.Value,
+                    EquipmentStatus.InGoodCondition)
+                {
+                    MaintenanceIntervalMonths = interval // Устанавливаем интервал только для нового оборудования
+                };
+
                 equipmentManager.AddEquipment(equipment);
                 Clear();
             }

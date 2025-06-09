@@ -9,6 +9,7 @@ public class Equipment
     public DateTime LastMaintenanceDate { get; set; }
     public EquipmentStatus Status { get; set; }
     public int MaintenanceIntervalMonths { get; set; } = 6;
+
     public Equipment(string name, string type, string serialNumber, DateTime purchaseDate,
     DateTime lastMaintenanceDate, EquipmentStatus status)
     {
@@ -19,7 +20,7 @@ public class Equipment
         LastMaintenanceDate = lastMaintenanceDate;
         Status = status;
     }
-
+   
     public bool InMaintenanceOverdue()
     {
         return DateTime.Now > LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths + 1); 
@@ -27,7 +28,7 @@ public class Equipment
     
     public bool InMaintenanceDue()
     {
-        return DateTime.Now > LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths); 
+        return DateTime.Now >= LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths); 
     }
     public override string ToString()
     {

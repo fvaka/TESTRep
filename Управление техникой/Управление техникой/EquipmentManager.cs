@@ -40,6 +40,7 @@ namespace Управление_техникой
                     return;
                 }
                 equipments.Add(equipment);
+                CheckEquipmentStatus(equipment);
                 MessageBox.Show("Оборудование успешно добавлено.");
                 LoadEquipment();
             }
@@ -70,6 +71,28 @@ namespace Управление_техникой
                 MessageBox.Show($"Ошибка при удалении оборудования: {ex.Message}");
             }
         }
+        private void CheckEquipmentStatus(Equipment equipment)
+        {
+            if (equipment.InMaintenanceOverdue())
+            {
+                MessageBox.Show(
+                    $"Внимание! Добавляемое оборудование '{equipment.Name}' (№{equipment.SerialNumber}) имеет просроченное ТО!\n" +
+                    $"Последнее обслуживание: {equipment.LastMaintenanceDate:dd.MM.yyyy}",
+                    "Предупреждение о состоянии оборудования",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+            else if (equipment.InMaintenanceDue())
+            {
+                MessageBox.Show(
+                    $"Оборудование '{equipment.Name}' (№{equipment.SerialNumber}) требует планового ТО.\n" +
+                    $"Последнее обслуживание: {equipment.LastMaintenanceDate:dd.MM.yyyy}",
+                    "Информация о состоянии оборудования",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+        }
+
         private void LoadEquipment()
         {
             try
