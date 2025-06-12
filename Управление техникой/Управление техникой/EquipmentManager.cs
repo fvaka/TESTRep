@@ -28,7 +28,6 @@ namespace Управление_техникой
                     MessageBox.Show("Объект оборудования не создан.");
                     return;
                 }
-                // Проверка на дубликаты серийного номера
                 if (equipments.Any(e => e.SerialNumber == equipment.SerialNumber))
                 {
                     MessageBox.Show("Оборудование с таким серийным номером уже существует.");

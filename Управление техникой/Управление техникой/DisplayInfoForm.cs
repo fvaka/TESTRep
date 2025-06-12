@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Управление_техникой
@@ -90,7 +88,6 @@ namespace Управление_техникой
             {
                 MessageBox.Show("Оборудование с таким серийным номером не найдено.");
             }
-
             return equipment;
         }
         private void RefreshEquipmentInfo()
@@ -102,7 +99,6 @@ namespace Управление_техникой
             {
                 foreach (var equip in equipmentList)
                 {
-                    string status = equip.GetMaintenanceStatus();
                     infoTextBox.AppendText(equip.ToString() + Environment.NewLine + Environment.NewLine);
                 }
             }
@@ -112,31 +108,6 @@ namespace Управление_техникой
             }
         }
 
-        private void RefreshInfo()
-        {
-            // Очищаем текстовое поле
-            infoTextBox.Clear();
-
-            // Получаем актуальный список оборудования из менеджера
-            var equipmentList = _equipmentManager.GetEquipmentList();
-
-            // Проверяем, есть ли оборудование для отображения
-            if (equipmentList == null || equipmentList.Count == 0)
-            {
-                infoTextBox.Text = "Список оборудования пуст или не задан.";
-                return;
-            }
-
-            // Формируем информацию о каждом оборудовании
-            foreach (var equip in equipmentList)
-            {
-                infoTextBox.AppendText(equip.ToString() + Environment.NewLine + Environment.NewLine);
-            }
-
-            // Прокручиваем текстовое поле в начало
-            infoTextBox.SelectionStart = 0;
-            infoTextBox.ScrollToCaret();
-        }
         private void GoodCondition_Click(object sender, EventArgs e)
         {
             var equipment = FindEquipmentBySerialNumber();

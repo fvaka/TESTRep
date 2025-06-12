@@ -20,6 +20,12 @@ public class Equipment
         LastMaintenanceDate = lastMaintenanceDate;
         Status = status;
     }
+    public override string ToString()
+    {
+        return $"Оборудование: {Name}; Тип: {Type}; Серийный номер: {SerialNumber};"
+        +
+        $"Дата покупки: {PurchaseDate.ToString("dd.MM.yyyy")}; Дата последнего обслуживания: {LastMaintenanceDate.ToString("dd.MM.yyyy")}; Состояние: {Status}";
+    }
    
     public bool InMaintenanceOverdue()
     {
@@ -29,12 +35,6 @@ public class Equipment
     public bool InMaintenanceDue()
     {
         return DateTime.Now == LastMaintenanceDate.AddMonths(MaintenanceIntervalMonths); 
-    }
-    public override string ToString()
-    {
-        return $"Оборудование: {Name}; Тип: {Type}; Серийный номер: {SerialNumber};"
-        +
-        $"Дата покупки: {PurchaseDate.ToString("dd.MM.yyyy")}; Дата последнего обслуживания: {LastMaintenanceDate.ToString("dd.MM.yyyy")}; Состояние: {Status}";
     }
     public void PerformMaintenance()
     {
@@ -51,13 +51,6 @@ public class Equipment
     {
         Status = EquipmentStatus.InRepair;
         MessageBox.Show($"Оборудование '{Name}' отправлено в ремонт.");
-    }
-
-    public string GetMaintenanceStatus()
-    {
-        if (InMaintenanceOverdue()) return "Обслуживание просрочено.";
-        else if (InMaintenanceDue()) return "Необходимо выполнить обслуживание";
-        return "Оборудование не требует обслуживания";
     }
 }
 public enum EquipmentStatus
