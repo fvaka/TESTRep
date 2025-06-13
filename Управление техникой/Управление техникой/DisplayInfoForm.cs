@@ -41,12 +41,14 @@ namespace Управление_техникой
             {
                 Location = new Point(numberLabel.Right + 200, infoTextBox.Bottom + 10),
                 Width = 200,
+                Name = "numberTextBox",
             };
             var GoodCondition = new Button
             {
                 AutoSize = true,
                 Location = new Point(10, infoTextBox.Bottom + 40),
-                Text = "Выполнить обслуживание"
+                Text = "Выполнить обслуживание",
+                Name = "GoodCondition"
             };
             GoodCondition.Click += GoodCondition_Click;
 
@@ -54,7 +56,8 @@ namespace Управление_техникой
             {
                 AutoSize = true,
                 Location = new Point(GoodCondition.Right + 80, infoTextBox.Bottom + 40),
-                Text = "Пометить как неисправное"
+                Text = "Пометить как неисправное",
+                Name = "Broken"
             };
             Broken.Click += Broken_Click;
 
@@ -62,7 +65,8 @@ namespace Управление_техникой
             {
                 AutoSize = true,
                 Location = new Point(Broken.Right + 90, infoTextBox.Bottom + 40),
-                Text = "Отправить на ремонт"
+                Text = "Отправить на ремонт",
+                Name = "InRepair"
             };
             InRepair.Click += InRepair_Click;
 

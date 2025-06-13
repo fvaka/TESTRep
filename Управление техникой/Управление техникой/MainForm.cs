@@ -67,43 +67,54 @@ namespace Управление_техникой
             nameTextBox = new TextBox
             {
                 Location = new System.Drawing.Point(10, 350),
-                Width = 100
+                Width = 100,
+                Name = "nameTextBox"
             };
             typeTextBox = new TextBox
             {
                 Location = new System.Drawing.Point(120, 350),
-                Width = 100
+                Width = 100,
+                Name = "typeTextBox"
             };
             serialNumberTextBox = new TextBox
             {
                 Location = new System.Drawing.Point(230, 350),
-                Width = 100
+                Width = 100,
+                Name = "serialNumberTextBox"
+
             };
             purchaseDatePicker = new DateTimePicker
             {
-                Location = new System.Drawing.Point(340, 350)
+                Location = new System.Drawing.Point(340, 350),
+                Name = "purchaseDatePicker"
+
             };
             lastMaintenanceDatePicker = new DateTimePicker
             {
-                Location = new System.Drawing.Point(purchaseDatePicker.Right + 10, 350)
+                Location = new System.Drawing.Point(purchaseDatePicker.Right + 10, 350),
+                Name = "lastMaintenanceDatePicker"
+
             };
             lastMaintenanceLabel = new Label
             {
                 Location = new System.Drawing.Point(purchaseDatePicker.Right + 10, 330),
                 Text = "Дата последнего обслуждживания:",
-                AutoSize = true
+                AutoSize = true,
+                Name = "lastMaintenanceLabel"
+
             };
             notifications = new Label
             {
                 Text = "Уведомлять о необходимости обслуживания каждые: ",
                 Location = new System.Drawing.Point(10, nameTextBox.Bottom + 10),
-                AutoSize = true
+                AutoSize = true,
             };
             notificationsCmb = new ComboBox
             {
                 Location = new System.Drawing.Point(15, notifications.Bottom + 5),
                 Width = 150, 
                 DropDownStyle = ComboBoxStyle.DropDownList,
+                Name = "notificationsCmb"
             };
             notificationsCmb.Items.AddRange(new object[] { "3 месяца", "6 месяца", "12 месяца" });
             notificationsCmb.SelectedIndex = 1;
@@ -111,19 +122,25 @@ namespace Управление_техникой
             var addButton = new Button
             {
                 Text = "Добавить",
-                Location = new System.Drawing.Point(560, 420)
+                Location = new System.Drawing.Point(560, 420),
+                Name = "addButton"
+
             };
             addButton.Click += AddButton_Click;
             var removeButton = new Button
             {
                 Text = "Удалить",
-                Location = new System.Drawing.Point(560, 450)
+                Location = new System.Drawing.Point(560, 450),
+                Name = "removeButton"
+
             };
             removeButton.Click += RemoveButton_Click;
             var displayButton = new Button
             {
                 Text = "Отобразить информацию",
-                Location = new System.Drawing.Point(560, 480)
+                Location = new System.Drawing.Point(560, 480),
+                Name = "displayButton"
+
             };
             displayButton.Click += DisplayButton_Click;
             this.Controls.Add(nameTextBox);
